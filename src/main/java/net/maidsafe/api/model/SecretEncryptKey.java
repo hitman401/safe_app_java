@@ -7,6 +7,8 @@ import net.maidsafe.binding.CryptoBinding;
 import net.maidsafe.binding.model.FfiCallback;
 import net.maidsafe.binding.model.FfiResult;
 import net.maidsafe.binding.model.FfiCallback.CallbackForData;
+import net.maidsafe.binding.model.FfiCallback.PointerCallback;
+import net.maidsafe.utils.CallbackMapper;
 import net.maidsafe.utils.FfiConstant;
 
 import com.sun.jna.Pointer;
@@ -28,21 +30,23 @@ public class SecretEncryptKey {
 
 	public CompletableFuture<byte[]> getRaw() {
 		final CompletableFuture<byte[]> future = new CompletableFuture<byte[]>();
-		lib.enc_secret_key_get(appHandle, handle, Pointer.NULL,
-				new FfiCallback.PointerCallback() {
+		PointerCallback cb = new FfiCallback.PointerCallback() {
 
-					@Override
-					public void onResponse(Pointer userData,
-							FfiResult.ByVal result, Pointer pointer) {
-						if (result.isError()) {
-							future.completeExceptionally(new Exception(result
-									.errorMessage()));
-							return;
-						}
-						future.complete(pointer.getByteArray(0,
-								FfiConstant.BOX_SECRETKEYBYTES));
-					}
-				});
+			@Override
+			public void onResponse(Pointer userData,
+					FfiResult.ByVal result, Pointer pointer) {
+				if (result.isError()) {
+					future.completeExceptionally(new Exception(result
+							.errorMessage()));
+					return;
+				}
+				future.complete(pointer.getByteArray(0,
+						FfiConstant.BOX_SECRETKEYBYTES));
+			}
+		};
+		CallbackMapper.getInstance().add(cb);
+		lib.enc_secret_key_get(appHandle, handle, Pointer.NULL,
+				cb);
 		return future;
 	}
 
@@ -50,17 +54,17 @@ public class SecretEncryptKey {
 			PublicEncryptKey senderPublicEncKey) {
 		final CompletableFuture<byte[]> future;
 		future = new CompletableFuture<byte[]>();
-
+		final CallbackForData cb = getCallbackForData(future);
 		lib.decrypt(appHandle, data, data.length,
 				senderPublicEncKey.getHandle(), handle, Pointer.NULL,
-				getCallbackForData(future));
+				cb);
 
 		return future;
 	}
 
 	private CallbackForData getCallbackForData(
 			final CompletableFuture<byte[]> future) {
-		return new CallbackForData() {
+		CallbackForData cb = new CallbackForData() {
 
 			@Override
 			public void onResponse(Pointer userData, FfiResult.ByVal result,
@@ -73,6 +77,8 @@ public class SecretEncryptKey {
 				future.complete(data.getByteArray(0, (int) dataLen));
 			}
 		};
+		CallbackMapper.getInstance().add(cb);
+		return cb;
 	}
 
 	@Override

@@ -11,8 +11,13 @@ import junit.framework.TestCase;
 
 public class AccessContainerTest extends TestCase {
 
-	public void testGetContainers() throws Exception {
-		SafeClient client = Utils.getTestAppWithAccess();
+	private final SafeClient client;
+
+	public AccessContainerTest() throws Exception {
+		client = Utils.getTestAppWithAccess();
+	}
+	
+	public void testGetContainers() throws Exception {		
 		List<String> containers = client.container().getContainers().get();
 		assertEquals(false, containers.isEmpty());
 		assertEquals(1, containers.size());

@@ -7,6 +7,7 @@ import com.sun.jna.ptr.PointerByReference;
 
 import net.maidsafe.api.model.App;
 import net.maidsafe.binding.model.FfiCallback;
+import net.maidsafe.binding.model.FfiResult;
 
 public abstract class NetworkObserver {
 
@@ -22,15 +23,15 @@ public abstract class NetworkObserver {
 	private final FfiCallback.NetworkObserverCallback observer = new FfiCallback.NetworkObserverCallback() {
 
 		@Override
-		public void onResponse(Pointer userData, int errorCod, int event) {
-			if (!future.isDone() && errorCod == 0) {
+		public void onResponse(Pointer userData, FfiResult.ByVal result, int event) {
+			if (result == null ||(!future.isDone() && !result.isError())) {
 				app.setAppHandle(appPointerRef.getValue());
 				future.complete(new SafeClient(app));
 			}
-			if (errorCod == 0) {
-				instance.onStateChange(Status.values()[event]);
+			if (result != null && result.isError()) {
+				instance.onError(result.error_code, result.description);
 			} else {
-				instance.onError(errorCod, "Failed to connect");
+				instance.onStateChange(Status.values()[event]);
 			}
 		}
 	};

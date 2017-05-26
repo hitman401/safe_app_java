@@ -12,6 +12,7 @@ import net.maidsafe.binding.BindingFactory;
 import net.maidsafe.binding.ImmutableDataBinding;
 import net.maidsafe.binding.model.FfiCallback.HandleCallback;
 import net.maidsafe.binding.model.FfiResult;
+import net.maidsafe.utils.CallbackMapper;
 
 public class ImmutableData {
 	private final App app;
@@ -25,22 +26,24 @@ public class ImmutableData {
 	public CompletableFuture<ImmutableDataWriter> getWriter() {
 		final CompletableFuture<ImmutableDataWriter> future;
 		future = new CompletableFuture<ImmutableDataWriter>();
+		HandleCallback cb = new HandleCallback() {
 
+			@Override
+			public void onResponse(Pointer userData,
+					FfiResult.ByVal result, long handle) {
+				System.out.println("Wriiter callback invoked");
+				if (result.isError()) {
+					future.completeExceptionally(new Exception(result
+							.errorMessage()));
+					return;
+				}
+				future.complete(new ImmutableDataWriter(app
+						.getAppHandle(), handle));
+			}
+		};
+		CallbackMapper.getInstance().add(cb);
 		idBinding.idata_new_self_encryptor(app.getAppHandle(), Pointer.NULL,
-				new HandleCallback() {
-
-					@Override
-					public void onResponse(Pointer userData,
-							FfiResult.ByVal result, long handle) {
-						if (result.isError()) {
-							future.completeExceptionally(new Exception(result
-									.errorMessage()));
-							return;
-						}
-						future.complete(new ImmutableDataWriter(app
-								.getAppHandle(), handle));
-					}
-				});
+				cb);
 
 		return future;
 	}
@@ -48,22 +51,25 @@ public class ImmutableData {
 	public CompletableFuture<ImmutableDataReader> getReader(XorName name) {
 		final CompletableFuture<ImmutableDataReader> future;
 		future = new CompletableFuture<ImmutableDataReader>();
+		
+		HandleCallback cb = new HandleCallback() {
 
+			@Override
+			public void onResponse(Pointer userData,
+					FfiResult.ByVal result, long handle) {
+				System.out.println("reader callback invoked");
+				if (result.isError()) {
+					future.completeExceptionally(new Exception(result
+							.errorMessage()));
+					return;
+				}
+				future.complete(new ImmutableDataReader(app
+						.getAppHandle(), handle));
+			}
+		};
+		CallbackMapper.getInstance().add(cb);
 		idBinding.idata_fetch_self_encryptor(app.getAppHandle(), name.getRaw(),
-				Pointer.NULL, new HandleCallback() {
-
-					@Override
-					public void onResponse(Pointer userData,
-							FfiResult.ByVal result, long handle) {
-						if (result.isError()) {
-							future.completeExceptionally(new Exception(result
-									.errorMessage()));
-							return;
-						}
-						future.complete(new ImmutableDataReader(app
-								.getAppHandle(), handle));
-					}
-				});
+				Pointer.NULL, cb);
 
 		return future;
 	}

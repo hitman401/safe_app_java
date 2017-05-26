@@ -6,6 +6,7 @@ import net.maidsafe.binding.BindingFactory;
 import net.maidsafe.binding.CryptoBinding;
 import net.maidsafe.binding.model.FfiResult;
 import net.maidsafe.binding.model.FfiCallback.CallbackForData;
+import net.maidsafe.utils.CallbackMapper;
 
 import com.sun.jna.Pointer;
 
@@ -34,17 +35,17 @@ public class EncryptKeyPair {
 	public CompletableFuture<byte[]> decryptSealed(byte[] data) {
 		final CompletableFuture<byte[]> future;
 		future = new CompletableFuture<byte[]>();
-
+		final CallbackForData cb = getCallbackForData(future);
 		lib.decrypt_sealed_box(appHandle, data, data.length,
 				publicKey.getHandle(), secretKey.getHandle(), Pointer.NULL,
-				getCallbackForData(future));
+				cb);
 
 		return future;
 	}
 
 	private CallbackForData getCallbackForData(
 			final CompletableFuture<byte[]> future) {
-		return new CallbackForData() {
+		CallbackForData cb = new CallbackForData() {
 
 			@Override
 			public void onResponse(Pointer userData, FfiResult.ByVal result,
@@ -57,6 +58,8 @@ public class EncryptKeyPair {
 				future.complete(data.getByteArray(0, (int) dataLen));
 			}
 		};
+		CallbackMapper.getInstance().add(cb);
+		return cb;
 	}
 
 }

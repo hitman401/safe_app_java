@@ -28,7 +28,7 @@ public class FfiCallback {
 	}
 
 	public interface NetworkObserverCallback extends Callback {
-		void onResponse(Pointer userData, int errorCod, int event);
+		void onResponse(Pointer userData, FfiResult.ByVal result, int event);
 	}
 
 	public interface HandleCallback extends Callback {

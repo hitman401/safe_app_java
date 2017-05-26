@@ -122,7 +122,7 @@ public class Auth {
 				.app_unregistered(null, observer.getObserver(),
 						observer.getAppRef());
 		if (Helper.isMockEnvironment()) {
-			observer.getObserver().onResponse(null, 0, 0);
+			observer.getObserver().onResponse(null, null, 0);
 		}
 		return future;
 	}
@@ -148,7 +148,7 @@ public class Auth {
 									observer.getObserver(),
 									observer.getAppRef());
 					if (Helper.isMockEnvironment()) {
-						observer.getObserver().onResponse(null, 0, 0);
+						observer.getObserver().onResponse(null, null, 0);
 					}
 				} catch (Exception e) {
 					future.completeExceptionally(e);
