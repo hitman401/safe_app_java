@@ -9,6 +9,8 @@ import java.util.concurrent.CompletableFuture;
 import com.sun.jna.Callback;
 import com.sun.jna.Pointer;
 
+import net.maidsafe.api.MDataPermissions;
+import net.maidsafe.api.model.MdataPermission;
 import net.maidsafe.binding.model.AuthUriResponse;
 import net.maidsafe.binding.model.FfiCallback;
 import net.maidsafe.binding.model.FfiResult.ByVal;
@@ -17,10 +19,12 @@ import net.maidsafe.api.Exception;
 public class CallbackHelper implements Cloneable {
 
 	private final Map<Integer, Callback> callbackPool;
+	private final Map<Integer, Long> forEachCounter;
 	private static CallbackHelper instance;
 
 	private CallbackHelper() {
 		callbackPool = new HashMap<>();
+		forEachCounter = new HashMap<>();
 	}
 
 	public static synchronized CallbackHelper getInstance() {
@@ -208,6 +212,24 @@ public class CallbackHelper implements Cloneable {
 		};
 		addToPool(cb);
 		return cb;
+	}
+
+	public FfiCallback.ForEachPermissionsCallback getForEachPermissionsCallback(MDataPermissions.ForEachCallback iter, long size) {
+		final FfiCallback.ForEachPermissionsCallback forEach = new FfiCallback.ForEachPermissionsCallback() {
+			@Override
+			public void onResponse(Pointer userData, long signKeyHandle, long permissionSetHandle) {
+				iter.onData(new MdataPermission(signKeyHandle, permissionSetHandle));
+				forEachCounter.put(this.hashCode(), forEachCounter.get(this.hashCode()) + 1);
+				if (forEachCounter.get(this.hashCode()) == size) {
+					iter.completed();
+					removeFromPool(this);
+					forEachCounter.remove(this.hashCode());
+				}
+			}
+		};
+		forEachCounter.put(forEach.hashCode(), 0L);
+		addToPool(forEach);
+		return forEach;
 	}
 
 

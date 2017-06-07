@@ -2,8 +2,11 @@ package net.maidsafe.api;
 
 import com.sun.jna.Pointer;
 import net.maidsafe.api.model.App;
+import net.maidsafe.api.model.MdataPermission;
 import net.maidsafe.api.model.MutableData;
+import net.maidsafe.api.model.Permission;
 import net.maidsafe.binding.MutableDataBinding;
+import net.maidsafe.binding.model.FfiCallback;
 import net.maidsafe.utils.CallbackHelper;
 import java.util.concurrent.CompletableFuture;
 
@@ -17,6 +20,10 @@ public class MDataPermissions {
     private  final long mDataPermissionHandle;
     private final long signKeyHandle;
     private final long permissionSetHandle;
+    public interface ForEachCallback {
+        void onData(MdataPermission permission);
+        void completed();
+    }
 
     public MDataPermissions(App app, MutableDataBinding mDataBinding, CallbackHelper callbackHelper, long mDataEntriesHandle,
                             long mDataPermissionHandle, long signKeyHandle, long permissionSetHandle) {
@@ -122,7 +129,22 @@ public class MDataPermissions {
         return future;
     }
 
-    //TODO: For each permissions to be implemented
+    public CompletableFuture<Void> foreachPermission(ForEachCallback iter){
+        final CompletableFuture<Void> future;
+        final CompletableFuture<Long> lenFuture;
+        future = new CompletableFuture<>();
+        lenFuture = new CompletableFuture<>();
+
+        mDataBinding.mdata_permissions_len(app.getAppHandle(), mDataPermissionHandle, Pointer.NULL, callbackHelper.getHandleCallBack(lenFuture));
+        lenFuture.thenAccept(size -> {
+            mDataBinding.mdata_permissions_for_each(app.getAppHandle(), mDataPermissionHandle, callbackHelper.getForEachPermissionsCallback(iter, size), Pointer.NULL, callbackHelper.getResultCallBack(future));
+        }).exceptionally(e -> {
+            future.completeExceptionally(e);
+           return null;
+        });
+
+        return future;
+    }
 
     public CompletableFuture<Void> insertPermission(){
         final CompletableFuture<Void> future;
