@@ -1,6 +1,6 @@
 package net.maidsafe.api;
 
-import net.maidsafe.ffi.app.NativeBindings;
+import net.maidsafe.safe_app.NativeBindings;
 import net.maidsafe.model.*;
 import net.maidsafe.utils.BaseApi;
 import net.maidsafe.utils.Helper;

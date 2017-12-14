@@ -1,44 +1,37 @@
 package net.maidsafe.api;
 
-import net.maidsafe.utils.BaseApi;
+import net.maidsafe.api.utils.OSInfo;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.net.URL;
 
 public class Client extends BaseClient {
 
     public Client() throws Exception {
+        String libName = "libsafe_app";
+        String extension = ".so";
+        switch (OSInfo.getOs()) {
+            case WINDOWS:
+                libName = "safe_app";
+                extension = ".dll";
+                break;
+            case MAC:
+                extension = ".dylib";
+                break;
+            default:
+                break;
+        }
 
-//			 TODO extract files based on os.arch and os
-//			 https://stackoverflow.com/questions/20856694/how-to-find-the-os-bit-type
-//        String tempPath = System.getProperty("java.io.tmpdir");
-
-        File winpThread = File.createTempFile("libwinpthread-1", ".dll");
-        InputStream is = getClass().getResourceAsStream("/native/libwinpthread-1.dll");
-        System.out.println(getClass().getResource("/native/libwinpthread-1.dll"));
-        System.out.println(is == null);
-        FileOutputStream fos = new FileOutputStream(winpThread);
-        byte[] data = new byte[is.available()];
-        is.read(data);
-        fos.write(data);
-        is.close();
-        fos.close();
-        winpThread.deleteOnExit();
-        File tempFile = File.createTempFile("safe_app", ".dll");
-        is = getClass().getResourceAsStream("/native/safe_app.dll");
-        fos = new FileOutputStream(tempFile.getPath());
-        data = new byte[is.available()];
-        is.read(data);
-        fos.write(data);
-        is.close();
-        fos.close();
+        File tempFile = File.createTempFile(libName, extension);
         tempFile.deleteOnExit();
-        System.out.println(winpThread.getAbsolutePath());
-        System.out.println(tempFile.getAbsolutePath());
-
-        System.load(winpThread.getAbsolutePath());
+        InputStream inputStream = getClass().getResourceAsStream("/native/".concat(libName).concat(extension));
+        FileOutputStream fileOutputstream = new FileOutputStream(tempFile.getPath());
+        byte[] data = new byte[inputStream.available()];
+        inputStream.read(data);
+        fileOutputstream.write(data);
+        inputStream.close();
+        fileOutputstream.close();
         System.load(tempFile.getAbsolutePath());
     }
 

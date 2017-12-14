@@ -1,6 +1,6 @@
 package net.maidsafe.model;
 
-import net.maidsafe.ffi.app.AuthGranted;
+import net.maidsafe.safe_app.AuthGranted;
 
 public class AuthResponse extends DecodeResult {
     private AuthGranted authGranted;

@@ -1,6 +1,6 @@
 package net.maidsafe.model;
 
-import net.maidsafe.ffi.app.FfiResult;
+import net.maidsafe.safe_app.FfiResult;
 import net.maidsafe.utils.Helper;
 
 public class DecodeError extends DecodeResult {

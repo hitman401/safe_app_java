@@ -1,6 +1,6 @@
 package net.maidsafe.api;
 
-import net.maidsafe.ffi.app.CallbackVoid;
+import net.maidsafe.safe_app.CallbackVoid;
 import net.maidsafe.model.NativeHandle;
 
 public class Session {

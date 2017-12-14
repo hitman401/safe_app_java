@@ -1,5 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import de.undercouch.gradle.tasks.download.Download;
+import org.apache.tools.ant.taskdefs.condition.Os;
+
 apply plugin: 'java-library'
 apply plugin: 'idea'
 apply plugin: "com.github.johnrengelman.shadow"
@@ -23,8 +25,16 @@ buildscript {
 }
 
 task copyTestResources(type: Copy) {
-    from "${projectDir}/src/test/resources"
-    into "${buildDir}/classes/java/test"
+    def platform = "linux";
+    def x64Versions = ["x86_64", "amd64", "x64", "x86-64","ia-64", "ia64", "ppc64", "sparc64", "ultrasparc", "sparc-v9", "arm64", "arm-v8"]
+    def arch = x64Versions.find { it == "x64" } == null ? "x86" : "x64"
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        platform = "win"
+    } else if (Os.isFamily(Os.FAMILY_MAC)) {
+        platform = "osx"
+    }
+    from "${projectDir}/libs/${platform}/mock/${arch}"
+    into "${buildDir}/classes/java/test/native"
 }
 processTestResources.dependsOn copyTestResources
 

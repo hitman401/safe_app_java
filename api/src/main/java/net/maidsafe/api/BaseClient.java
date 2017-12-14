@@ -1,8 +1,8 @@
 package net.maidsafe.api;
 
-import net.maidsafe.ffi.app.*;
 import net.maidsafe.listener.OnDisconnected;
 import net.maidsafe.model.*;
+import net.maidsafe.safe_app.*;
 import net.maidsafe.utils.Helper;
 
 import java.util.concurrent.CompletableFuture;
