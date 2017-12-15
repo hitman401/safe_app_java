@@ -9,14 +9,64 @@ import java.util.concurrent.CompletableFuture;
 
 public class BaseClient {
 
-    private CallbackResultIntString handleRequestCallback(CompletableFuture<Request> future) {
-        return (result, reqId, uri) -> {
+    public CompletableFuture<Void> initLogging(String outputFileName) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        NativeBindings.appInitLogging(outputFileName, (result) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
             }
-            future.complete(new Request(uri, reqId));
-        };
+            future.complete(null);
+        });
+        return future;
+    }
+
+    public CompletableFuture<String> getLogOutputPath(String logFileName) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        NativeBindings.appOutputLogPath(logFileName, (result, path) -> {
+            if (result.getErrorCode() != 0) {
+                future.completeExceptionally(Helper.ffiResultToException(result));
+                return;
+            }
+            future.complete(path);
+        });
+        return future;
+    }
+
+    public CompletableFuture<String> getAppContainerName(String appId) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        NativeBindings.appContainerName(appId, (result, name) -> {
+            if (result.getErrorCode() != 0) {
+                future.completeExceptionally(Helper.ffiResultToException(result));
+                return;
+            }
+            future.complete(name);
+        });
+        return future;
+    }
+
+    public CompletableFuture<Void> setAdditionalSearchPath(String path) {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        NativeBindings.appSetAdditionalSearchPath(path, (result) -> {
+            if (result.getErrorCode() != 0) {
+                future.completeExceptionally(Helper.ffiResultToException(result));
+                return;
+            }
+            future.complete(null);
+        });
+        return future;
+    }
+
+    public CompletableFuture<String> getAppStem() {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        NativeBindings.appExeFileStem((result, path) -> {
+            if (result.getErrorCode() != 0) {
+                future.completeExceptionally(Helper.ffiResultToException(result));
+                return;
+            }
+            future.complete(path);
+        });
+        return future;
     }
 
     public CompletableFuture<Request> getAuthRequest(AuthReq req) {
@@ -98,4 +148,35 @@ public class BaseClient {
         NativeBindings.appUnregistered(bootStrapConfig, onDisconnectCb, callback);
         return future;
     }
+
+    public CompletableFuture<Session> connect(App app, AuthGranted authGranted, OnDisconnected onDisconnected) {
+        CompletableFuture<Session> future = new CompletableFuture<>();
+        CallbackVoid onDisconnectCb = () -> {
+            if (onDisconnected != null) {
+                onDisconnected.disconnected();
+            }
+        };
+        CallbackResultApp callback = (result, appHandle) -> {
+            if (result.getErrorCode() != 0) {
+                future.completeExceptionally(Helper.ffiResultToException(result));
+                return;
+            }
+            future.complete(new Session(new NativeHandle(appHandle, (handle) -> {
+                NativeBindings.appFree(handle);
+            }), onDisconnectCb));
+        };
+        NativeBindings.appRegistered(app.getId(), authGranted, onDisconnectCb, callback);
+        return future;
+    }
+
+    private CallbackResultIntString handleRequestCallback(CompletableFuture<Request> future) {
+        return (result, reqId, uri) -> {
+            if (result.getErrorCode() != 0) {
+                future.completeExceptionally(Helper.ffiResultToException(result));
+                return;
+            }
+            future.complete(new Request(uri, reqId));
+        };
+    }
+
 }

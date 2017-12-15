@@ -1,24 +1,23 @@
-package net.maidsafe.model;
+package net.maidsafe.api;
 
 import net.maidsafe.safe_app.NativeBindings;
 import net.maidsafe.utils.Helper;
 
 import java.util.concurrent.CompletableFuture;
 
-public class SecretSignKey extends NativeHandle {
-
+public class PublicEncryptKey extends NativeHandle {
     private NativeHandle appHandle;
 
-    public SecretSignKey(NativeHandle appHandle, long handle) {
-        super(handle, (signKey) -> {
-            NativeBindings.signSecKeyFree(appHandle.toLong(), signKey, (result) -> {});
+    public PublicEncryptKey(NativeHandle appHandle, long handle) {
+        super(handle, (encKey) -> {
+            NativeBindings.encPubKeyFree(appHandle.toLong(), encKey, (result) -> {});
         });
         this.appHandle = appHandle;
     }
 
     public CompletableFuture<byte[]> getKey() {
         CompletableFuture<byte[]> future = new CompletableFuture<>();
-        NativeBindings.signSecKeyGet(appHandle.toLong(), toLong(), (result, key) -> {
+        NativeBindings.encPubKeyGet(appHandle.toLong(), toLong(), (result, key) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
@@ -27,5 +26,4 @@ public class SecretSignKey extends NativeHandle {
         });
         return future;
     }
-
 }

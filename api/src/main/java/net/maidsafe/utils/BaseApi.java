@@ -1,6 +1,6 @@
 package net.maidsafe.utils;
 
-import net.maidsafe.model.NativeHandle;
+import net.maidsafe.api.NativeHandle;
 
 public class BaseApi {
 

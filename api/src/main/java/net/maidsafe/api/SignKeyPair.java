@@ -1,4 +1,6 @@
-package net.maidsafe.model;
+package net.maidsafe.api;
+
+import net.maidsafe.api.PublicSignKey;
 
 public class SignKeyPair {
     private PublicSignKey publicSignKey;

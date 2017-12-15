@@ -434,28 +434,28 @@ public class NativeBindings {
      * <p>
      * Callback parameters: user data, error code, encrypted entry key vector, vector size
      */
-    public static native void mdataInfoEncryptEntryKey(MdataInfo info, byte[] inputPtr, CallbackResultByteArrayLen oCb);
+    public static native void mdataInfoEncryptEntryKey(MDataInfo info, byte[] inputPtr, CallbackResultByteArrayLen oCb);
 
     /**
      * Encrypt mdata entry value using the corresponding mdata info.
      * <p>
      * Callback parameters: user data, error code, encrypted entry value vector, vector size
      */
-    public static native void mdataInfoEncryptEntryValue(MdataInfo info, byte[] inputPtr, CallbackResultByteArrayLen oCb);
+    public static native void mdataInfoEncryptEntryValue(MDataInfo info, byte[] inputPtr, CallbackResultByteArrayLen oCb);
 
     /**
      * Decrypt mdata entry value or a key using the corresponding mdata info.
      * <p>
      * Callback parameters: user data, error code, decrypted mdata info vector, vector size
      */
-    public static native void mdataInfoDecrypt(MdataInfo info, byte[] inputPtr, CallbackResultByteArrayLen oCb);
+    public static native void mdataInfoDecrypt(MDataInfo info, byte[] inputPtr, CallbackResultByteArrayLen oCb);
 
     /**
      * Serialise `MDataInfo`.
      * <p>
      * Callback parameters: user data, error code, serialised mdata info
      */
-    public static native void mdataInfoSerialise(MdataInfo info, CallbackResultByteArrayLen oCb);
+    public static native void mdataInfoSerialise(MDataInfo info, CallbackResultByteArrayLen oCb);
 
     /**
      * Deserialise `MDataInfo`.
@@ -475,21 +475,21 @@ public class NativeBindings {
      * <p>
      * Callback parameters: user data, error code
      */
-    public static native void mdataPut(long app, MdataInfo info, long permissionsH, long entriesH, CallbackResult oCb);
+    public static native void mdataPut(long app, MDataInfo info, long permissionsH, long entriesH, CallbackResult oCb);
 
     /**
      * Get version of the mutable data.
      * <p>
      * Callback parameters: user data, error code, version
      */
-    public static native void mdataGetVersion(long app, MdataInfo info, CallbackResultLong oCb);
+    public static native void mdataGetVersion(long app, MDataInfo info, CallbackResultLong oCb);
 
     /**
      * Get size of serialised mutable data.
      * <p>
      * Callback parameters: user data, error code, serialised size
      */
-    public static native void mdataSerialisedSize(long app, MdataInfo info, CallbackResultLong oCb);
+    public static native void mdataSerialisedSize(long app, MDataInfo info, CallbackResultLong oCb);
 
     /**
      * Get value at the given key from the mutable data.
@@ -503,42 +503,42 @@ public class NativeBindings {
      * Please notice that if a value is fetched from a private `MutableData`,
      * it's not automatically decrypted.
      */
-    public static native void mdataGetValue(long app, MdataInfo info, byte[] keyPtr, CallbackResultByteArrayLenLong oCb);
+    public static native void mdataGetValue(long app, MDataInfo info, byte[] keyPtr, CallbackResultByteArrayLenLong oCb);
 
     /**
      * Get complete list of entries in the mutable data.
      * <p>
      * Callback parameters: user data, error code, entries handle
      */
-    public static native void mdataListEntries(long app, MdataInfo info, CallbackResultMdataEntriesHandle oCb);
+    public static native void mdataListEntries(long app, MDataInfo info, CallbackResultMdataEntriesHandle oCb);
 
     /**
      * Get list of all keys in the mutable data.
      * <p>
      * Callback parameters: user data, error code, vector of keys, vector size
      */
-    public static native void mdataListKeys(long app, MdataInfo info, CallbackResultMdataKeyArrayLen oCb);
+    public static native void mdataListKeys(long app, MDataInfo info, CallbackResultMdataKeyArrayLen oCb);
 
     /**
      * Get list of all values in the mutable data.
      * <p>
      * Callback parameters: user data, error code, vector of values, vector size
      */
-    public static native void mdataListValues(long app, MdataInfo info, CallbackResultMdataValueArrayLen oCb);
+    public static native void mdataListValues(long app, MDataInfo info, CallbackResultMdataValueArrayLen oCb);
 
     /**
      * Mutate entries of the mutable data.
      * <p>
      * Callback parameters: user data, error code
      */
-    public static native void mdataMutateEntries(long app, MdataInfo info, long actionsH, CallbackResult oCb);
+    public static native void mdataMutateEntries(long app, MDataInfo info, long actionsH, CallbackResult oCb);
 
     /**
      * Get list of all permissions set on the mutable data
      * <p>
      * Callback parameters: user data, error code, permission handle
      */
-    public static native void mdataListPermissions(long app, MdataInfo info, CallbackResultMdataPermissionsHandle oCb);
+    public static native void mdataListPermissions(long app, MDataInfo info, CallbackResultMdataPermissionsHandle oCb);
 
     /**
      * Get list of permissions set on the mutable data for the given user.
@@ -547,7 +547,7 @@ public class NativeBindings {
      * <p>
      * Callback parameters: user data, error code, permission set handle
      */
-    public static native void mdataListUserPermissions(long app, MdataInfo info, long userH, CallbackResultPermissionSet oCb);
+    public static native void mdataListUserPermissions(long app, MDataInfo info, long userH, CallbackResultPermissionSet oCb);
 
     /**
      * Set permissions set on the mutable data for the given user.
@@ -556,7 +556,7 @@ public class NativeBindings {
      * <p>
      * Callback parameters: user data, error code
      */
-    public static native void mdataSetUserPermissions(long app, MdataInfo info, long userH, PermissionSet permissionSet, long version, CallbackResult oCb);
+    public static native void mdataSetUserPermissions(long app, MDataInfo info, long userH, PermissionSet permissionSet, long version, CallbackResult oCb);
 
     /**
      * Delete permissions set on the mutable data for the given user.
@@ -565,7 +565,7 @@ public class NativeBindings {
      * <p>
      * Callback parameters: user data, error code
      */
-    public static native void mdataDelUserPermissions(long app, MdataInfo info, long userH, long version, CallbackResult oCb);
+    public static native void mdataDelUserPermissions(long app, MDataInfo info, long userH, long version, CallbackResult oCb);
 
     /**
      * Create new empty entries.
@@ -706,14 +706,14 @@ public class NativeBindings {
      * <p>
      * Callback parameters: user data, error code, file, version
      */
-    public static native void dirFetchFile(long app, MdataInfo parentInfo, String fileName, CallbackResultFileLong oCb);
+    public static native void dirFetchFile(long app, MDataInfo parentInfo, String fileName, CallbackResultFileLong oCb);
 
     /**
      * Insert the file into the parent directory.
      * <p>
      * Callback parameters: user data, error code
      */
-    public static native void dirInsertFile(long app, MdataInfo parentInfo, String fileName, File file, CallbackResult oCb);
+    public static native void dirInsertFile(long app, MDataInfo parentInfo, String fileName, File file, CallbackResult oCb);
 
     /**
      * Replace the file in the parent directory.
@@ -721,21 +721,21 @@ public class NativeBindings {
      * <p>
      * Callback parameters: user data, error code
      */
-    public static native void dirUpdateFile(long app, MdataInfo parentInfo, String fileName, File file, long version, CallbackResult oCb);
+    public static native void dirUpdateFile(long app, MDataInfo parentInfo, String fileName, File file, long version, CallbackResult oCb);
 
     /**
      * Delete the file in the parent directory.
      * <p>
      * Callback parameters: user data, error code
      */
-    public static native void dirDeleteFile(long app, MdataInfo parentInfo, String fileName, long version, CallbackResult oCb);
+    public static native void dirDeleteFile(long app, MDataInfo parentInfo, String fileName, long version, CallbackResult oCb);
 
     /**
      * Open the file to read of write its contents.
      * <p>
      * Callback parameters: user data, error code, file context handle
      */
-    public static native void fileOpen(long app, MdataInfo parentInfo, File file, long openMode, CallbackResultFileContextHandle oCb);
+    public static native void fileOpen(long app, MDataInfo parentInfo, File file, long openMode, CallbackResultFileContextHandle oCb);
 
     /**
      * Get a size of file opened for read.

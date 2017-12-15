@@ -1,5 +1,5 @@
 package net.maidsafe.safe_app;
 
 public interface CallbackResultMdataInfo {
-	public void call(FfiResult result, MdataInfo mdataInfo);
+	public void call(FfiResult result, MDataInfo MDataInfo);
 }

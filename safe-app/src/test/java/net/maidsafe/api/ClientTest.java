@@ -13,7 +13,7 @@ public class ClientTest {
         Assert.assertTrue(request.getReqId() != 0);
         Assert.assertNotNull(request.getUri());
         Session session = client.connect(new byte[0], () -> {}).get();
-        EncryptKeyPair encryptKeyPair = session.getCrypto().generateEncryptKeyPair().get();
+        ImmutableDataReader.EncryptKeyPair encryptKeyPair = session.getCrypto().generateEncryptKeyPair().get();
         byte[] cipherText = session.getCrypto().encrypt(encryptKeyPair.getPublicEncryptKey(), encryptKeyPair.getSecretEncryptKey(), "Hello".getBytes()).get();
         Assert.assertEquals("Hello", new String(session.getCrypto().decrypt(encryptKeyPair.getPublicEncryptKey(), encryptKeyPair.getSecretEncryptKey(), cipherText).get()));
     }

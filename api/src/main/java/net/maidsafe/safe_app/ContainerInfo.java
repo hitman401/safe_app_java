@@ -12,14 +12,14 @@ public class ContainerInfo {
 		name = val;
 	}
 
-	private MdataInfo mdataInfo;
+	private MDataInfo MDataInfo;
 
-	public MdataInfo getMdataInfo() {
-		return mdataInfo;
+	public MDataInfo getMDataInfo() {
+		return MDataInfo;
 	}
 
-	public void setMdataInfo(final MdataInfo val) {
-		mdataInfo = val;
+	public void setMDataInfo(final MDataInfo val) {
+		MDataInfo = val;
 	}
 
 	private PermissionSet permissions;

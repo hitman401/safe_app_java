@@ -1,4 +1,6 @@
-package net.maidsafe.model;
+package net.maidsafe.api;
+
+import net.maidsafe.api.PublicEncryptKey;
 
 public class EncryptKeyPair {
 
