@@ -5,6 +5,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 apply plugin: 'java-library'
 apply plugin: 'idea'
 apply plugin: "com.github.johnrengelman.shadow"
+
 group 'net.maidsafe'
 version '0.1.0'
 dependencies {
