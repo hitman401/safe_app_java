@@ -14,11 +14,11 @@ public class ContainerPermission {
 
 	private PermissionSet access;
 
-	public PermissionSet getAcce() {
+	public PermissionSet getAccess() {
 		return access;
 	}
 
-	public void setAcce(final PermissionSet val) {
+	public void setAccess(final PermissionSet val) {
 		access = val;
 	}
 

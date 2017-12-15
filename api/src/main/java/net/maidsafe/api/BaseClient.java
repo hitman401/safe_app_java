@@ -75,11 +75,11 @@ public class BaseClient {
         return  future;
     }
 
-    public CompletableFuture<Session> getUnregisteredSession(UnregisteredClientResponse response, OnDisconnected onDisconnected) {
-        return getUnregisteredSession(response.getBootstrapConfig(), onDisconnected);
+    public CompletableFuture<Session> connect(UnregisteredClientResponse response, OnDisconnected onDisconnected) {
+        return connect(response.getBootstrapConfig(), onDisconnected);
     }
 
-    public CompletableFuture<Session> getUnregisteredSession(byte[] bootStrapConfig, OnDisconnected onDisconnected) {
+    public CompletableFuture<Session> connect(byte[] bootStrapConfig, OnDisconnected onDisconnected) {
         CompletableFuture<Session> future = new CompletableFuture<>();
         CallbackVoid onDisconnectCb = () -> {
             if (onDisconnected != null) {

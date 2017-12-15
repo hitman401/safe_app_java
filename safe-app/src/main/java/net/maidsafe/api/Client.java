@@ -4,7 +4,10 @@ import net.maidsafe.api.utils.OSInfo;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 
 public class Client extends BaseClient {
 
@@ -22,17 +25,18 @@ public class Client extends BaseClient {
             default:
                 break;
         }
+        String tempDir = System.getProperty("java.io.tmpdir");
+        File generatedDir = new File(tempDir, "safe_app_java" + System.nanoTime());
 
-        File tempFile = File.createTempFile(libName, extension);
-        tempFile.deleteOnExit();
+        if (!generatedDir.mkdir()) {
+            throw new IOException("Failed to create temp directory " + generatedDir.getName());
+        }
+        generatedDir.deleteOnExit();
+        File file = new File(generatedDir, libName.concat(extension));
+        file.deleteOnExit();
         InputStream inputStream = getClass().getResourceAsStream("/native/".concat(libName).concat(extension));
-        FileOutputStream fileOutputstream = new FileOutputStream(tempFile.getPath());
-        byte[] data = new byte[inputStream.available()];
-        inputStream.read(data);
-        fileOutputstream.write(data);
-        inputStream.close();
-        fileOutputstream.close();
-        System.load(tempFile.getAbsolutePath());
+        Files.copy(inputStream, file.toPath());
+        System.load(file.getAbsolutePath());
     }
 
 }

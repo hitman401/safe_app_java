@@ -1,6 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import de.undercouch.gradle.tasks.download.Download;
-import org.apache.tools.ant.taskdefs.condition.Os;
+import de.undercouch.gradle.tasks.download.Download
+import org.apache.tools.ant.taskdefs.condition.Os
 
 apply plugin: 'java-library'
 apply plugin: 'idea'
@@ -38,12 +38,12 @@ task copyTestResources(type: Copy) {
 }
 processTestResources.dependsOn copyTestResources
 
-def nativeLibsVersion = "0dacb37"
+def nativeLibsVersion = "nikita-c789f8b"
 def tempDownloadDir =  "${projectDir}/.tempDownloads"
 def getCombinations() {
     def platforms = ['linux', 'win', 'osx']
-    def variants = ['mock', 'non-mock']
-    def architectures = ['x86', 'x64']
+    def variants = ['mock'] // ['mock', 'non-mock']
+    def architectures = ['x64'] // ['x86', 'x64']
     [platforms, architectures, variants].combinations().findAll { !(it[0] == 'osx' && it[1] == 'x86') }
 }
 tasks.addRule('Pattern: NativeLibs-<ID>') { String taskName ->
@@ -63,6 +63,7 @@ tasks.addRule('Pattern: delete-<ID>') { String taskName ->
         task(taskName, type: Delete) {
             delete "${projectDir}/src/main/resources/native/"
             delete "${projectDir}/build/resources/main/native/"
+            delete "${projectDir}/build/classes/java/test/native"
         }
     }
 }
@@ -104,7 +105,8 @@ task ("downloadNativeLibs", type: Download) {
         assert dir.deleteDir()
     }
     def endPoints = getCombinations().collect {
-        "https://s3.eu-west-2.amazonaws.com/safe-client-libs/safe_app-${it[2] == 'mock' ? 'mock-' : ''}${nativeLibsVersion}-${it[0]}-${it[1]}.zip"
+//        "https://s3.eu-west-2.amazonaws.com/safe-client-libs/safe_app-${it[2] == 'mock' ? 'mock-' : ''}${nativeLibsVersion}-${it[0]}-${it[1]}.zip"
+        "https://github.com/krishnaIndia/safe_core/releases/download/nikita-c789f8b/safe_app-${it[2] == 'mock' ? 'mock-' : ''}${nativeLibsVersion}-${it[0]}-${it[1]}.zip"
     }
     src(endPoints)
     dest tempDownloadDir
@@ -121,6 +123,6 @@ tasks.addRule('Pattern: unzip-<ID>') { String taskName ->
         }
     }
 }
-task ("download-Nativelibs") {
-    dependsOn << ['downloadNativeLibs',getCombinations().collect { "unzip-${it[0]}-${it[1]}-${it[2]}" }]
+task ("download-nativelibs") {
+    dependsOn << ['downloadNativeLibs', getCombinations().collect { "unzip-${it[0]}-${it[1]}-${it[2]}" }]
 }
