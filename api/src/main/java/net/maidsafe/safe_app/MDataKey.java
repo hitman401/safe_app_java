@@ -1,7 +1,7 @@
 package net.maidsafe.safe_app;
 
 /// Represents an FFI-safe mutable data key.
-public class MdataKey {
+public class MDataKey {
 	private byte valPtr;
 
 	public byte getValPtr() {

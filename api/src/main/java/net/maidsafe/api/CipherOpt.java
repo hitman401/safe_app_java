@@ -1,5 +1,6 @@
 package net.maidsafe.api;
 
+import net.maidsafe.api.idata.ImmutableDataReader;
 import net.maidsafe.safe_app.NativeBindings;
 import net.maidsafe.utils.BaseApi;
 

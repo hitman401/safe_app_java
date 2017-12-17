@@ -1,6 +1,6 @@
 package net.maidsafe.safe_app;
 
-/// FFI object representing a (User, Permission Set) pair.
+/// FFI object representing a (User, MDataPermission Set) pair.
 public class UserPermissionSet {
 	private long userH;
 

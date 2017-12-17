@@ -1,15 +1,17 @@
-package net.maidsafe.api;
+package net.maidsafe.api.idata;
 
+import net.maidsafe.api.CipherOptHandle;
+import net.maidsafe.api.NativeHandle;
 import net.maidsafe.safe_app.NativeBindings;
 import net.maidsafe.utils.BaseApi;
 import net.maidsafe.utils.Helper;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ImmutableDataWriter extends BaseApi {
+public class IDataWriter extends BaseApi {
 
     private NativeHandle writeHandle;
-    public ImmutableDataWriter(NativeHandle appHandle, long writerHandle) {
+    public IDataWriter(NativeHandle appHandle, long writerHandle) {
         super(appHandle);
         this.writeHandle = new NativeHandle(writerHandle, (handle) -> {
             NativeBindings.idataSelfEncryptorWriterFree(appHandle.toLong(), handle, (result -> {
@@ -37,28 +39,5 @@ public class ImmutableDataWriter extends BaseApi {
             future.complete(name);
         });
         return future;
-    }
-
-    public static class PublicSignKey extends NativeHandle {
-        private NativeHandle appHandle;
-
-        public PublicSignKey(NativeHandle appHandle, long handle) {
-            super(handle, (signKey) -> {
-                NativeBindings.signPubKeyFree(appHandle.toLong(), signKey, (result) -> {});
-            });
-            this.appHandle = appHandle;
-        }
-
-        public CompletableFuture<byte[]> getKey() {
-            CompletableFuture<byte[]> future = new CompletableFuture<>();
-            NativeBindings.signPubKeyGet(appHandle.toLong(), toLong(), (result, key) -> {
-                if (result.getErrorCode() != 0) {
-                    future.completeExceptionally(Helper.ffiResultToException(result));
-                    return;
-                }
-                future.complete(key);
-            });
-            return future;
-        }
     }
 }

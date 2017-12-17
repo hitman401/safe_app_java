@@ -1,5 +1,6 @@
 package net.maidsafe.api;
 
+import net.maidsafe.api.mdata.MDataEntries;
 import net.maidsafe.safe_app.*;
 import net.maidsafe.utils.Helper;
 
@@ -88,4 +89,5 @@ public class Session {
         }));
         return future;
     }
+
 }

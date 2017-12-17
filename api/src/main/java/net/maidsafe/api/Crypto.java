@@ -1,5 +1,7 @@
 package net.maidsafe.api;
 
+import net.maidsafe.api.idata.ImmutableDataReader;
+import net.maidsafe.api.idata.IDataWriter;
 import net.maidsafe.safe_app.NativeBindings;
 import net.maidsafe.utils.BaseApi;
 import net.maidsafe.utils.Helper;
@@ -35,19 +37,19 @@ public class Crypto extends BaseApi {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
             }
-            future.complete(new ImmutableDataReader.SignKeyPair(new ImmutableDataWriter.PublicSignKey(appHandle, pubSignKeyHandle), new SecretSignKey(appHandle, secSignKeyHandle)));
+            future.complete(new ImmutableDataReader.SignKeyPair(new IDataWriter.PublicSignKey(appHandle, pubSignKeyHandle), new SecretSignKey(appHandle, secSignKeyHandle)));
         });
         return future;
     }
 
-    public CompletableFuture<ImmutableDataWriter.PublicSignKey> getPublicSignKey(byte[] key) {
-        CompletableFuture<ImmutableDataWriter.PublicSignKey> future = new CompletableFuture<>();
+    public CompletableFuture<IDataWriter.PublicSignKey> getPublicSignKey(byte[] key) {
+        CompletableFuture<IDataWriter.PublicSignKey> future = new CompletableFuture<>();
         NativeBindings.signPubKeyNew(appHandle.toLong(), key, (result, handle) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
             }
-            future.complete(new ImmutableDataWriter.PublicSignKey(appHandle, handle));
+            future.complete(new IDataWriter.PublicSignKey(appHandle, handle));
         });
         return future;
     }
@@ -124,7 +126,7 @@ public class Crypto extends BaseApi {
         return future;
     }
 
-    public CompletableFuture<byte[]> verify(ImmutableDataWriter.PublicSignKey publicSignKey, byte[] signedData) {
+    public CompletableFuture<byte[]> verify(IDataWriter.PublicSignKey publicSignKey, byte[] signedData) {
         CompletableFuture<byte[]> future = new CompletableFuture<>();
         NativeBindings.verify(appHandle.toLong(), signedData, publicSignKey.toLong(), (result, verifiedData) -> {
             if (result.getErrorCode() != 0) {

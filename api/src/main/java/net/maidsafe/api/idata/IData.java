@@ -1,25 +1,26 @@
-package net.maidsafe.api;
+package net.maidsafe.api.idata;
 
+import net.maidsafe.api.NativeHandle;
 import net.maidsafe.safe_app.NativeBindings;
 import net.maidsafe.utils.BaseApi;
 import net.maidsafe.utils.Helper;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ImmutableData extends BaseApi {
+public class IData extends BaseApi {
 
-    public ImmutableData(NativeHandle appHandle) {
+    public IData(NativeHandle appHandle) {
         super(appHandle);
     }
 
-    public CompletableFuture<ImmutableDataWriter> getWriter() {
-        CompletableFuture<ImmutableDataWriter> future = new CompletableFuture<>();
+    public CompletableFuture<IDataWriter> getWriter() {
+        CompletableFuture<IDataWriter> future = new CompletableFuture<>();
         NativeBindings.idataNewSelfEncryptor(appHandle.toLong(), (result, handle) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
             }
-            future.complete(new ImmutableDataWriter(appHandle, handle));
+            future.complete(new IDataWriter(appHandle, handle));
         });
         return future;
     }

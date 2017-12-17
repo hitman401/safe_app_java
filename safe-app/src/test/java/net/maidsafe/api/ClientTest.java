@@ -1,5 +1,6 @@
 package net.maidsafe.api;
 
+import net.maidsafe.api.idata.ImmutableDataReader;
 import net.maidsafe.model.*;
 import org.junit.Assert;
 import org.junit.Test;
