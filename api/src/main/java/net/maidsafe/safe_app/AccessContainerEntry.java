@@ -2,35 +2,35 @@ package net.maidsafe.safe_app;
 
 /// Access container entry for a single app.
 public class AccessContainerEntry {
-	private ContainerInfo containersPtr;
+    private ContainerInfo containersPtr;
 
-	public ContainerInfo getContainersPtr() {
-		return containersPtr;
-	}
+    public ContainerInfo getContainersPtr() {
+        return containersPtr;
+    }
 
-	public void setContainersPtr(final ContainerInfo val) {
-		containersPtr = val;
-	}
+    public void setContainersPtr(final ContainerInfo val) {
+        containersPtr = val;
+    }
 
-	private long containersLen;
+    private long containersLen;
 
-	public long getContainersLen() {
-		return containersLen;
-	}
+    public long getContainersLen() {
+        return containersLen;
+    }
 
-	public void setContainersLen(final long val) {
-		containersLen = val;
-	}
+    public void setContainersLen(final long val) {
+        containersLen = val;
+    }
 
-	private long containersCap;
+    private long containersCap;
 
-	public long getContainersCap() {
-		return containersCap;
-	}
+    public long getContainersCap() {
+        return containersCap;
+    }
 
-	public void setContainersCap(final long val) {
-		containersCap = val;
-	}
+    public void setContainersCap(final long val) {
+        containersCap = val;
+    }
 
 }
 

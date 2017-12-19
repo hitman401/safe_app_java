@@ -1,8 +1,6 @@
 package net.maidsafe.api.nfs;
 
 import net.maidsafe.api.NativeHandle;
-import net.maidsafe.model.NFSFileMetadata;
-import net.maidsafe.safe_app.File;
 import net.maidsafe.safe_app.NativeBindings;
 import net.maidsafe.utils.BaseApi;
 import net.maidsafe.utils.Helper;

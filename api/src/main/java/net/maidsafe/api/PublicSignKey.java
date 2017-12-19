@@ -10,7 +10,8 @@ public class PublicSignKey extends NativeHandle {
 
     public PublicSignKey(NativeHandle appHandle, long handle) {
         super(handle, (signKey) -> {
-            NativeBindings.signPubKeyFree(appHandle.toLong(), signKey, (result) -> {});
+            NativeBindings.signPubKeyFree(appHandle.toLong(), signKey, (result) -> {
+            });
         });
         this.appHandle = appHandle;
     }

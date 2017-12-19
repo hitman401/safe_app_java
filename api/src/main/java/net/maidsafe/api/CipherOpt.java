@@ -1,6 +1,5 @@
 package net.maidsafe.api;
 
-import net.maidsafe.api.idata.ImmutableDataReader;
 import net.maidsafe.safe_app.NativeBindings;
 import net.maidsafe.utils.BaseApi;
 
@@ -34,7 +33,7 @@ public class CipherOpt extends BaseApi {
         return future;
     }
 
-    public CompletableFuture<CipherOptHandle> getAsymmetricCipherOpt(ImmutableDataReader.PublicEncryptKey publicEncryptKey) {
+    public CompletableFuture<CipherOptHandle> getAsymmetricCipherOpt(PublicEncryptKey publicEncryptKey) {
         CompletableFuture<CipherOptHandle> future = new CompletableFuture<>();
         NativeBindings.cipherOptNewAsymmetric(appHandle.toLong(), publicEncryptKey.toLong(), (result, handle) -> {
             if (result.getErrorCode() != 0) {

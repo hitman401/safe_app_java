@@ -1,7 +1,7 @@
 package net.maidsafe.api;
 
-import net.maidsafe.api.mdata.MDataEntries;
 import net.maidsafe.safe_app.*;
+import net.maidsafe.api.mdata.MData;
 import net.maidsafe.utils.Helper;
 
 import java.util.Arrays;
@@ -14,6 +14,7 @@ public class Session {
     private CallbackVoid disconnectedCb;
     private Crypto crypto;
     private CipherOpt cipherOpt;
+    private MData mData;
 
     public Session(NativeHandle appHandle, CallbackVoid disconnectedCb) {
         this.appHandle = appHandle;
@@ -28,6 +29,10 @@ public class Session {
 
     public CipherOpt getCipherOpt() {
         return cipherOpt;
+    }
+
+    public MData getmData() {
+        return mData;
     }
 
     public CompletableFuture<AccountInfo> getAccountInfo() {

@@ -11,7 +11,8 @@ public class SecretSignKey extends NativeHandle {
 
     public SecretSignKey(NativeHandle appHandle, long handle) {
         super(handle, (signKey) -> {
-            NativeBindings.signSecKeyFree(appHandle.toLong(), signKey, (result) -> {});
+            NativeBindings.signSecKeyFree(appHandle.toLong(), signKey, (result) -> {
+            });
         });
         this.appHandle = appHandle;
     }

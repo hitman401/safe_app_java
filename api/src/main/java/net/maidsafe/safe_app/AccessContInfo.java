@@ -2,35 +2,35 @@ package net.maidsafe.safe_app;
 
 /// Access container info.
 public class AccessContInfo {
-	private byte[] id;
+    private byte[] id;
 
-	public byte[] getId() {
-		return id;
-	}
+    public byte[] getId() {
+        return id;
+    }
 
-	public void setId(final byte[] val) {
-		id = val;
-	}
+    public void setId(final byte[] val) {
+        id = val;
+    }
 
-	private long tag;
+    private long tag;
 
-	public long getTag() {
-		return tag;
-	}
+    public long getTag() {
+        return tag;
+    }
 
-	public void setTag(final long val) {
-		tag = val;
-	}
+    public void setTag(final long val) {
+        tag = val;
+    }
 
-	private byte[] nonce;
+    private byte[] nonce;
 
-	public byte[] getNonce() {
-		return nonce;
-	}
+    public byte[] getNonce() {
+        return nonce;
+    }
 
-	public void setNonce(final byte[] val) {
-		nonce = val;
-	}
+    public void setNonce(final byte[] val) {
+        nonce = val;
+    }
 
 }
 

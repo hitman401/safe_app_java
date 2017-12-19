@@ -10,7 +10,8 @@ public class PublicEncryptKey extends NativeHandle {
 
     public PublicEncryptKey(NativeHandle appHandle, long handle) {
         super(handle, (encKey) -> {
-            NativeBindings.encPubKeyFree(appHandle.toLong(), encKey, (result) -> {});
+            NativeBindings.encPubKeyFree(appHandle.toLong(), encKey, (result) -> {
+            });
         });
         this.appHandle = appHandle;
     }

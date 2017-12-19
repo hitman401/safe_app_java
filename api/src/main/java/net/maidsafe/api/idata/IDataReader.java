@@ -1,8 +1,6 @@
 package net.maidsafe.api.idata;
 
 import net.maidsafe.api.NativeHandle;
-import net.maidsafe.api.SecretEncryptKey;
-import net.maidsafe.api.SecretSignKey;
 import net.maidsafe.safe_app.NativeBindings;
 import net.maidsafe.utils.BaseApi;
 import net.maidsafe.utils.Helper;
@@ -13,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 public class IDataReader extends BaseApi {
 
     private NativeHandle readerHandle;
+
     public IDataReader(NativeHandle appHandle, long writerHandle) {
         super(appHandle);
         this.readerHandle = new NativeHandle(writerHandle, (handle) -> {

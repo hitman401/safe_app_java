@@ -1,7 +1,5 @@
 package net.maidsafe.api;
 
-import net.maidsafe.api.idata.ImmutableDataReader;
-import net.maidsafe.api.idata.IDataWriter;
 import net.maidsafe.safe_app.NativeBindings;
 import net.maidsafe.utils.BaseApi;
 import net.maidsafe.utils.Helper;
@@ -30,26 +28,26 @@ public class Crypto extends BaseApi {
         return future;
     }
 
-    public CompletableFuture<ImmutableDataReader.SignKeyPair> generateSignKeyPair() {
-        CompletableFuture<ImmutableDataReader.SignKeyPair> future = new CompletableFuture<>();
+    public CompletableFuture<SignKeyPair> generateSignKeyPair() {
+        CompletableFuture<SignKeyPair> future = new CompletableFuture<>();
         NativeBindings.signGenerateKeyPair(appHandle.toLong(), (result, pubSignKeyHandle, secSignKeyHandle) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
             }
-            future.complete(new ImmutableDataReader.SignKeyPair(new IDataWriter.PublicSignKey(appHandle, pubSignKeyHandle), new SecretSignKey(appHandle, secSignKeyHandle)));
+            future.complete(new SignKeyPair(new PublicSignKey(appHandle, pubSignKeyHandle), new SecretSignKey(appHandle, secSignKeyHandle)));
         });
         return future;
     }
 
-    public CompletableFuture<IDataWriter.PublicSignKey> getPublicSignKey(byte[] key) {
-        CompletableFuture<IDataWriter.PublicSignKey> future = new CompletableFuture<>();
+    public CompletableFuture<PublicSignKey> getPublicSignKey(byte[] key) {
+        CompletableFuture<PublicSignKey> future = new CompletableFuture<>();
         NativeBindings.signPubKeyNew(appHandle.toLong(), key, (result, handle) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
             }
-            future.complete(new IDataWriter.PublicSignKey(appHandle, handle));
+            future.complete(new PublicSignKey(appHandle, handle));
         });
         return future;
     }
@@ -66,38 +64,38 @@ public class Crypto extends BaseApi {
         return future;
     }
 
-    public CompletableFuture<ImmutableDataReader.EncryptKeyPair> generateEncryptKeyPair() {
-        CompletableFuture<ImmutableDataReader.EncryptKeyPair> future = new CompletableFuture<>();
+    public CompletableFuture<EncryptKeyPair> generateEncryptKeyPair() {
+        CompletableFuture<EncryptKeyPair> future = new CompletableFuture<>();
         NativeBindings.encGenerateKeyPair(appHandle.toLong(), (result, pubEncHandle, secEncHandle) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
             }
-            future.complete(new ImmutableDataReader.EncryptKeyPair(new ImmutableDataReader.PublicEncryptKey(appHandle, pubEncHandle), new SecretEncryptKey(appHandle, secEncHandle)));
+            future.complete(new EncryptKeyPair(new PublicEncryptKey(appHandle, pubEncHandle), new SecretEncryptKey(appHandle, secEncHandle)));
         });
         return future;
     }
 
-    public CompletableFuture<ImmutableDataReader.PublicEncryptKey> getAppPublicEncryptKey() {
-        CompletableFuture<ImmutableDataReader.PublicEncryptKey> future = new CompletableFuture<>();
+    public CompletableFuture<PublicEncryptKey> getAppPublicEncryptKey() {
+        CompletableFuture<PublicEncryptKey> future = new CompletableFuture<>();
         NativeBindings.appPubEncKey(appHandle.toLong(), (result, handle) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
             }
-            future.complete(new ImmutableDataReader.PublicEncryptKey(appHandle, handle));
+            future.complete(new PublicEncryptKey(appHandle, handle));
         });
         return future;
     }
 
-    public CompletableFuture<ImmutableDataReader.PublicEncryptKey> getPublicEncryptKey(byte[] key) {
-        CompletableFuture<ImmutableDataReader.PublicEncryptKey> future = new CompletableFuture<>();
+    public CompletableFuture<PublicEncryptKey> getPublicEncryptKey(byte[] key) {
+        CompletableFuture<PublicEncryptKey> future = new CompletableFuture<>();
         NativeBindings.encPubKeyNew(appHandle.toLong(), key, (result, handle) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
             }
-            future.complete(new ImmutableDataReader.PublicEncryptKey(appHandle, handle));
+            future.complete(new PublicEncryptKey(appHandle, handle));
         });
         return future;
     }
@@ -126,7 +124,7 @@ public class Crypto extends BaseApi {
         return future;
     }
 
-    public CompletableFuture<byte[]> verify(IDataWriter.PublicSignKey publicSignKey, byte[] signedData) {
+    public CompletableFuture<byte[]> verify(PublicSignKey publicSignKey, byte[] signedData) {
         CompletableFuture<byte[]> future = new CompletableFuture<>();
         NativeBindings.verify(appHandle.toLong(), signedData, publicSignKey.toLong(), (result, verifiedData) -> {
             if (result.getErrorCode() != 0) {
@@ -138,7 +136,7 @@ public class Crypto extends BaseApi {
         return future;
     }
 
-    public CompletableFuture<byte[]> encrypt(ImmutableDataReader.PublicEncryptKey recipientPublicEncryptKey, SecretEncryptKey senderSecretEncryptKey, byte[] data) {
+    public CompletableFuture<byte[]> encrypt(PublicEncryptKey recipientPublicEncryptKey, SecretEncryptKey senderSecretEncryptKey, byte[] data) {
         CompletableFuture<byte[]> future = new CompletableFuture<>();
         NativeBindings.encrypt(appHandle.toLong(), data, recipientPublicEncryptKey.toLong(), senderSecretEncryptKey.toLong(), (result, cipherText) -> {
             if (result.getErrorCode() != 0) {
@@ -150,7 +148,7 @@ public class Crypto extends BaseApi {
         return future;
     }
 
-    public CompletableFuture<byte[]> decrypt(ImmutableDataReader.PublicEncryptKey senderPublicEncryptKey, SecretEncryptKey recipientSecretEncryptKey, byte[] cipherText) {
+    public CompletableFuture<byte[]> decrypt(PublicEncryptKey senderPublicEncryptKey, SecretEncryptKey recipientSecretEncryptKey, byte[] cipherText) {
         CompletableFuture<byte[]> future = new CompletableFuture<>();
         NativeBindings.decrypt(appHandle.toLong(), cipherText, senderPublicEncryptKey.toLong(), recipientSecretEncryptKey.toLong(), (result, plainData) -> {
             if (result.getErrorCode() != 0) {
@@ -162,7 +160,7 @@ public class Crypto extends BaseApi {
         return future;
     }
 
-    public CompletableFuture<byte[]> encryptSealedBox(ImmutableDataReader.PublicEncryptKey recipientPublicEncryptKey, byte[] data) {
+    public CompletableFuture<byte[]> encryptSealedBox(PublicEncryptKey recipientPublicEncryptKey, byte[] data) {
         CompletableFuture<byte[]> future = new CompletableFuture<>();
         NativeBindings.encryptSealedBox(appHandle.toLong(), data, recipientPublicEncryptKey.toLong(), (result, cipherText) -> {
             if (result.getErrorCode() != 0) {

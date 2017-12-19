@@ -2,85 +2,85 @@ package net.maidsafe.safe_app;
 
 /// FFI wrapper for `MDataInfo`.
 public class MDataInfo {
-	private byte[] name;
+    private byte[] name;
 
-	public byte[] getName() {
-		return name;
-	}
+    public byte[] getName() {
+        return name;
+    }
 
-	public void setName(final byte[] val) {
-		name = val;
-	}
+    public void setName(final byte[] val) {
+        name = val;
+    }
 
-	private long typeTag;
+    private long typeTag;
 
-	public long getTypeTag() {
-		return typeTag;
-	}
+    public long getTypeTag() {
+        return typeTag;
+    }
 
-	public void setTypeTag(final long val) {
-		typeTag = val;
-	}
+    public void setTypeTag(final long val) {
+        typeTag = val;
+    }
 
-	private boolean hasEncInfo;
+    private boolean hasEncInfo;
 
-	public boolean getHasEncInfo() {
-		return hasEncInfo;
-	}
+    public boolean getHasEncInfo() {
+        return hasEncInfo;
+    }
 
-	public void setHasEncInfo(final boolean val) {
-		hasEncInfo = val;
-	}
+    public void setHasEncInfo(final boolean val) {
+        hasEncInfo = val;
+    }
 
-	private byte[] encKey;
+    private byte[] encKey;
 
-	public byte[] getEncKey() {
-		return encKey;
-	}
+    public byte[] getEncKey() {
+        return encKey;
+    }
 
-	public void setEncKey(final byte[] val) {
-		encKey = val;
-	}
+    public void setEncKey(final byte[] val) {
+        encKey = val;
+    }
 
-	private byte[] encNonce;
+    private byte[] encNonce;
 
-	public byte[] getEncNonce() {
-		return encNonce;
-	}
+    public byte[] getEncNonce() {
+        return encNonce;
+    }
 
-	public void setEncNonce(final byte[] val) {
-		encNonce = val;
-	}
+    public void setEncNonce(final byte[] val) {
+        encNonce = val;
+    }
 
-	private boolean hasNewEncInfo;
+    private boolean hasNewEncInfo;
 
-	public boolean getHasNewEncInfo() {
-		return hasNewEncInfo;
-	}
+    public boolean getHasNewEncInfo() {
+        return hasNewEncInfo;
+    }
 
-	public void setHasNewEncInfo(final boolean val) {
-		hasNewEncInfo = val;
-	}
+    public void setHasNewEncInfo(final boolean val) {
+        hasNewEncInfo = val;
+    }
 
-	private byte[] newEncKey;
+    private byte[] newEncKey;
 
-	public byte[] getNewEncKey() {
-		return newEncKey;
-	}
+    public byte[] getNewEncKey() {
+        return newEncKey;
+    }
 
-	public void setNewEncKey(final byte[] val) {
-		newEncKey = val;
-	}
+    public void setNewEncKey(final byte[] val) {
+        newEncKey = val;
+    }
 
-	private byte[] newEncNonce;
+    private byte[] newEncNonce;
 
-	public byte[] getNewEncNonce() {
-		return newEncNonce;
-	}
+    public byte[] getNewEncNonce() {
+        return newEncNonce;
+    }
 
-	public void setNewEncNonce(final byte[] val) {
-		newEncNonce = val;
-	}
+    public void setNewEncNonce(final byte[] val) {
+        newEncNonce = val;
+    }
 
 }
 

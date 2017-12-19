@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class Permission extends BaseApi {
     private NativeHandle permissionHandle;
+
     public Permission(NativeHandle appHandle, NativeHandle permissionHandle) {
         super(appHandle);
         this.permissionHandle = permissionHandle;

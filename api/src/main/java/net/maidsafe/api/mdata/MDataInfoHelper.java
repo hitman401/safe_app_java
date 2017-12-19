@@ -16,7 +16,7 @@ public class MDataInfoHelper extends BaseApi {
 
     public CompletableFuture<MDataInfo> getPrivateMData(byte[] name, long typeTag, byte[] secretKey, byte[] nonce) {
         CompletableFuture<MDataInfo> future = new CompletableFuture<>();
-        NativeBindings.mdataInfoNewPrivate(name, typeTag, secretKey, nonce, (result, mdInfo) ->{
+        NativeBindings.mdataInfoNewPrivate(name, typeTag, secretKey, nonce, (result, mdInfo) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
@@ -28,7 +28,7 @@ public class MDataInfoHelper extends BaseApi {
 
     public CompletableFuture<MDataInfo> getRandomPrivateMData(long typeTag) {
         CompletableFuture<MDataInfo> future = new CompletableFuture<>();
-        NativeBindings.mdataInfoRandomPrivate(typeTag, (result, mdInfo) ->{
+        NativeBindings.mdataInfoRandomPrivate(typeTag, (result, mdInfo) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
@@ -40,7 +40,7 @@ public class MDataInfoHelper extends BaseApi {
 
     public CompletableFuture<MDataInfo> getRandomPublicMData(long typeTag) {
         CompletableFuture<MDataInfo> future = new CompletableFuture<>();
-        NativeBindings.mdataInfoRandomPublic(typeTag, (result, mdInfo) ->{
+        NativeBindings.mdataInfoRandomPublic(typeTag, (result, mdInfo) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;

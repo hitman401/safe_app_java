@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 public class IDataWriter extends BaseApi {
 
     private NativeHandle writeHandle;
+
     public IDataWriter(NativeHandle appHandle, long writerHandle) {
         super(appHandle);
         this.writeHandle = new NativeHandle(writerHandle, (handle) -> {

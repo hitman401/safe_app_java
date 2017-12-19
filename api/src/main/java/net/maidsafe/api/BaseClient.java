@@ -1,6 +1,5 @@
 package net.maidsafe.api;
 
-import net.maidsafe.api.mdata.MDataEntries;
 import net.maidsafe.listener.OnDisconnected;
 import net.maidsafe.model.*;
 import net.maidsafe.safe_app.*;
@@ -123,7 +122,7 @@ public class BaseClient {
         };
 
         NativeBindings.decodeIpcMsg(uri, onAuthGranted, onUnregistered, onContainerCb, onShareMdCb, onRevoked, onErrorCb);
-        return  future;
+        return future;
     }
 
     public CompletableFuture<Session> connect(UnregisteredClientResponse response, OnDisconnected onDisconnected) {

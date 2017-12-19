@@ -10,7 +10,8 @@ public class SecretEncryptKey extends NativeHandle {
 
     public SecretEncryptKey(NativeHandle appHandle, long handle) {
         super(handle, (encKey) -> {
-            NativeBindings.encSecretKeyFree(appHandle.toLong(), encKey, (result) -> {});
+            NativeBindings.encSecretKeyFree(appHandle.toLong(), encKey, (result) -> {
+            });
         });
         this.appHandle = appHandle;
     }

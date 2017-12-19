@@ -25,21 +25,21 @@ public class IData extends BaseApi {
         return future;
     }
 
-    public CompletableFuture<ImmutableDataReader> getReader(byte[] name) {
-        CompletableFuture<ImmutableDataReader> future = new CompletableFuture<>();
-        NativeBindings.idataFetchSelfEncryptor(appHandle.toLong(),name,  (result, handle) -> {
+    public CompletableFuture<IDataReader> getReader(byte[] name) {
+        CompletableFuture<IDataReader> future = new CompletableFuture<>();
+        NativeBindings.idataFetchSelfEncryptor(appHandle.toLong(), name, (result, handle) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;
             }
-            future.complete(new ImmutableDataReader(appHandle, handle));
+            future.complete(new IDataReader(appHandle, handle));
         });
         return future;
     }
 
     public CompletableFuture<Long> getSerialisedSize(byte[] name) {
         CompletableFuture<Long> future = new CompletableFuture<>();
-        NativeBindings.idataSerialisedSize(appHandle.toLong(),name, (result, size) -> {
+        NativeBindings.idataSerialisedSize(appHandle.toLong(), name, (result, size) -> {
             if (result.getErrorCode() != 0) {
                 future.completeExceptionally(Helper.ffiResultToException(result));
                 return;

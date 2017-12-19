@@ -71,7 +71,8 @@ public class MData extends BaseApi {
                 return;
             }
             NativeHandle entriesHandle = new NativeHandle(entriesH, (handle) -> {
-                NativeBindings.mdataEntriesFree(appHandle.toLong(), handle, (res) -> {});
+                NativeBindings.mdataEntriesFree(appHandle.toLong(), handle, (res) -> {
+                });
             });
             future.complete(new MDataEntries(appHandle, entriesHandle));
         });
@@ -122,7 +123,8 @@ public class MData extends BaseApi {
                 return;
             }
             NativeHandle permissionHandle = new NativeHandle(permsHandle, (handle) -> {
-                NativeBindings.mdataPermissionsFree(appHandle.toLong(), handle, res -> {});
+                NativeBindings.mdataPermissionsFree(appHandle.toLong(), handle, res -> {
+                });
             });
             future.complete(new MDataPermission(appHandle, permissionHandle, mDataInfo));
         });
@@ -137,7 +139,8 @@ public class MData extends BaseApi {
                 return;
             }
             NativeHandle entriesHandle = new NativeHandle(entriesH, handle -> {
-                NativeBindings.mdataEntriesFree(appHandle.toLong(), handle, res -> {});
+                NativeBindings.mdataEntriesFree(appHandle.toLong(), handle, res -> {
+                });
             });
             future.complete(new MDataEntries(appHandle, entriesHandle));
         });
@@ -152,7 +155,8 @@ public class MData extends BaseApi {
                 return;
             }
             NativeHandle entriesHandle = new NativeHandle(entriesH, handle -> {
-                NativeBindings.mdataEntryActionsFree(appHandle.toLong(), handle, res -> {});
+                NativeBindings.mdataEntryActionsFree(appHandle.toLong(), handle, res -> {
+                });
             });
             future.complete(new MDataEntryAction(appHandle, entriesHandle));
         });
@@ -167,7 +171,8 @@ public class MData extends BaseApi {
                 return;
             }
             NativeHandle entriesHandle = new NativeHandle(permissionsHandle, handle -> {
-                NativeBindings.mdataPermissionsFree(appHandle.toLong(), handle, res -> {});
+                NativeBindings.mdataPermissionsFree(appHandle.toLong(), handle, res -> {
+                });
             });
             future.complete(new Permission(appHandle, entriesHandle));
         });

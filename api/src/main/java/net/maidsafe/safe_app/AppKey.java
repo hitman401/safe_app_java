@@ -2,65 +2,65 @@ package net.maidsafe.safe_app;
 
 /// Represents the needed keys to work with the data.
 public class AppKey {
-	private byte[] ownerKey;
+    private byte[] ownerKey;
 
-	public byte[] getOwnerKey() {
-		return ownerKey;
-	}
+    public byte[] getOwnerKey() {
+        return ownerKey;
+    }
 
-	public void setOwnerKey(final byte[] val) {
-		ownerKey = val;
-	}
+    public void setOwnerKey(final byte[] val) {
+        ownerKey = val;
+    }
 
-	private byte[] encKey;
+    private byte[] encKey;
 
-	public byte[] getEncKey() {
-		return encKey;
-	}
+    public byte[] getEncKey() {
+        return encKey;
+    }
 
-	public void setEncKey(final byte[] val) {
-		encKey = val;
-	}
+    public void setEncKey(final byte[] val) {
+        encKey = val;
+    }
 
-	private byte[] signPk;
+    private byte[] signPk;
 
-	public byte[] getSignPk() {
-		return signPk;
-	}
+    public byte[] getSignPk() {
+        return signPk;
+    }
 
-	public void setSignPk(final byte[] val) {
-		signPk = val;
-	}
+    public void setSignPk(final byte[] val) {
+        signPk = val;
+    }
 
-	private byte[] signSk;
+    private byte[] signSk;
 
-	public byte[] getSignSk() {
-		return signSk;
-	}
+    public byte[] getSignSk() {
+        return signSk;
+    }
 
-	public void setSignSk(final byte[] val) {
-		signSk = val;
-	}
+    public void setSignSk(final byte[] val) {
+        signSk = val;
+    }
 
-	private byte[] encPk;
+    private byte[] encPk;
 
-	public byte[] getEncPk() {
-		return encPk;
-	}
+    public byte[] getEncPk() {
+        return encPk;
+    }
 
-	public void setEncPk(final byte[] val) {
-		encPk = val;
-	}
+    public void setEncPk(final byte[] val) {
+        encPk = val;
+    }
 
-	private byte[] encSk;
+    private byte[] encSk;
 
-	public byte[] getEncSk() {
-		return encSk;
-	}
+    public byte[] getEncSk() {
+        return encSk;
+    }
 
-	public void setEncSk(final byte[] val) {
-		encSk = val;
-	}
+    public void setEncSk(final byte[] val) {
+        encSk = val;
+    }
 
 }
 
